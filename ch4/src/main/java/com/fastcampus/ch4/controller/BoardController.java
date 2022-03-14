@@ -49,7 +49,7 @@ public class BoardController {
         try {
             BoardDto boardDto = boardService.read(bno);
 //            m.addAttribute("boardDto", boardDto); //아래 코드와 동일
-            m.addAttribute(boardDto); //위처럼 안쓰고 name을 생략할 수 있다. 생략하면 타입에서 첫글자를 소문자로 한 단어가 name이 된다.
+            m.addAttribute("boardDto", boardDto); //위처럼 안쓰고 name을 생략할 수 있다. 생략하면 타입에서 첫글자를 소문자로 한 단어가 name이 된다.
             m.addAttribute("page", page);
             m.addAttribute("pageSize", pageSize);
         } catch (Exception e) {

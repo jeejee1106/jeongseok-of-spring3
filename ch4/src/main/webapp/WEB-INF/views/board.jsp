@@ -34,7 +34,7 @@
         </div>
         <script>
             $(document).ready(function (){
-                $('#listBtn').on("click", function (){
+                $('#removeBtn').on("click", function (){
                     if (!confirm("정말로 삭제하시겠습니까?")) {
                         return;
                     }
@@ -45,8 +45,8 @@
                     form.submit();
                 });
 
-                $('#removeBtn').on("click", function (){
-                    location.href = "<c:url value='/board/remove'/>?page=${page}&pageSize=${pageSize}";
+                $('#listBtn').on("click", function (){
+                    location.href = "<c:url value='/board/list'/>?page=${page}&pageSize=${pageSize}";
                 })
             });
         </script>
