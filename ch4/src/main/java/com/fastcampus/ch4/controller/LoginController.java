@@ -75,6 +75,7 @@ public class LoginController {
 
         try {
             user = userDao.selectUser(id);
+//            user = userDao.selectUser2(id, pwd); //그냥 statement를 썼을 때 sql인잭션이 일어난다. 를 보여주기 위한 예제 코드
         } catch (Exception e) {
             e.printStackTrace();
             return false;
@@ -82,5 +83,7 @@ public class LoginController {
 
         return user!=null && user.getPwd().equals(pwd);
 //        return "asdf".equals(id) && "1234".equals(pwd);
+
+//        return user != null; //그냥 statement를 썼을 때 sql인잭션이 일어난다. 를 보여주기 위한 예제 코드
     }
 }
