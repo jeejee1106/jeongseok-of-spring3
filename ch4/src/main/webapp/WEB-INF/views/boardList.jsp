@@ -16,6 +16,9 @@
         if(msg == "Del_Error"){
             alert("삭제에 실패했습니다.");
         }
+        if (msg == "Write_Success") {
+            alert("등록되었습니다.")
+        }
     </script>
     <body>
         <div id="menu">
@@ -29,6 +32,7 @@
             </ul>
         </div>
         <div style="text-align:center">
+            <button type="button" id="writeBtn" onclick="location.href='<c:url value="/board/write"/>'">글쓰기</button>
             <table>
                 <tr>
                     <th>번호</th>

@@ -26,7 +26,7 @@
     </select>
 
     <update id="update" parameterType="BoardDto">
-        update board set title = #{title}, content = #{content}, up_date = now() where bno = #{bno}
+        update board set title = #{title}, content = #{content}, up_date = now() where bno = #{bno} and writer = #{writer}
     </update>
 
     <update id="increaseViewCnt" parameterType="int">

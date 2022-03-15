@@ -24,6 +24,60 @@ public class BoardController {
     @Autowired
     BoardService boardService;
 
+    @PostMapping("modify")
+    public String modify(BoardDto boardDto, Integer page, Integer pageSize, Model m, HttpSession session, RedirectAttributes rattr) {
+        String writer = (String) session.getAttribute("id"); //getAttribute는 Object를 반환하기 때문에 형변환 필요
+        boardDto.setWriter(writer);
+
+        try {
+            int rowCnt = boardService.modify(boardDto); //insert이기 때문에 잘 됐으면 1개의 insert가 완료되었다는 int타입의 1을 반환
+
+            if (rowCnt != 1) {
+                throw new Exception("Modify failed");
+            }
+
+            rattr.addFlashAttribute("msg", "Modify_Success"); //세션을 이용한 1회성 저장방식
+            m.addAttribute("page", page);
+            m.addAttribute("pageSize", pageSize);
+
+            return "redirect:/board/list?page=" + page + "&pageSize=" + pageSize;
+        } catch (Exception e) {
+            e.printStackTrace();
+            m.addAttribute("boardDto", boardDto); //예외가 발생했을 때 쓰고 있던 글 제목이나 내용 그대로 유지
+            rattr.addFlashAttribute("msg", "Modify_Error");
+            return "board"; //에러나면 글 쓰고 있던 그 화면 그대로
+        }
+    }
+
+    @PostMapping("write")
+    public String write(BoardDto boardDto, Model m, HttpSession session, RedirectAttributes rattr) {
+        String writer = (String) session.getAttribute("id"); //getAttribute는 Object를 반환하기 때문에 형변환 필요
+        boardDto.setWriter(writer);
+
+        try {
+            int rowCnt = boardService.write(boardDto); //insert이기 때문에 잘 됐으면 1개의 insert가 완료되었다는 int타입의 1을 반환
+
+            if (rowCnt != 1) {
+                throw new Exception("Write failed");
+            }
+
+            rattr.addFlashAttribute("msg", "Write_Success"); //세션을 이용한 1회성 저장방식
+
+            return "redirect:/board/list";
+        } catch (Exception e) {
+            e.printStackTrace();
+            m.addAttribute("boardDto", boardDto); //예외가 발생했을 때 쓰고 있던 글 제목이나 내용 그대로 유지
+            rattr.addFlashAttribute("msg", "Write_Error");
+            return "board"; //에러나면 글 쓰고 있던 그 화면 그대로
+        }
+    }
+
+    @GetMapping("/write")
+    public String write(Model m) {
+        m.addAttribute("mode", "new");
+        return "board"; //board.jsp는 읽기와 쓰기 모두 사용할 것이기 때문에 쓰기에 사용할 때는 mode=new를 넘겨서 구분해준다.
+    }
+
     @PostMapping("/remove")
     public String remove(Integer bno, Integer page, Integer pageSize, Model m, HttpSession session, RedirectAttributes rattr) {
         String writer = (String) session.getAttribute("id");
