@@ -3,40 +3,49 @@
 
 <mapper namespace="com.fastcampus.ch4.dao.BoardMapper">
 
+    <!-- bno를 넘겨주면 해당하는 row반환 -->
     <select id="select" parameterType="int" resultType="BoardDto">
         select * from board where bno = #{bno}
     </select>
 
+    <!-- board테이블의 row 갯수 반환 -->
     <select id="count" resultType="int">
         select count(*) from board
     </select>
 
+    <!-- board테이블에 insert하기 -->
     <insert id="insert" parameterType="BoardDto">
         insert into board(title, content, writer)
         values(#{title}, #{content}, #{writer})
     </insert>
 
+    <!-- 게시물 등록일자 역순, bno역순으로 offset부터 pageSize개 만큼 row반환 -->
     <select id="selectPage" parameterType="map" resultType="BoardDto">
         select bno, title, content, writer, view_cnt, comment_cnt, reg_date from board
         order by reg_date DESC, bno DESC LIMIT #{offset}, #{pageSize}
     </select>
 
+    <!-- 게시물 등록일자 역순, bno역순으로 모든 row반환 -->
     <select id="selectAll" resultType="BoardDto">
         select * from board order by reg_date desc, bno desc
     </select>
 
+    <!-- bno와 writer가 일치하면 title, content 수정함 -->
     <update id="update" parameterType="BoardDto">
         update board set title = #{title}, content = #{content}, up_date = now() where bno = #{bno} and writer = #{writer}
     </update>
 
+    <!-- bno를 넘겨주고 view_cnt 1씩 증가시킴 (조회수 증가 쿼리) -->
     <update id="increaseViewCnt" parameterType="int">
         update board set view_cnt = view_cnt + 1 where bno = #{bno}
     </update>
 
+    <!-- bno와 writer가 일치하면 해당 게시글 삭제 -->
     <delete id="delete">
         delete from board where bno = #{bno} and writer = #{writer}
     </delete>
 
+    <!-- board테이블의 모든 row삭제 -->
     <delete id="deleteAll">
         delete from board
     </delete>
